@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Book List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
+</head>
+<body>
+	<h1>Books</h1>
+	
+	<table class="table table-striped">
+		<tr>
+			<th>Title</th>
+			<th>Author</th>
+			<th>Year</th>
+			<th>isbn</th>
+			<th>Price</th>
+
+		</tr>
+
+		<tr th:each="book : ${books}">
+			<td th:text="${book.title}">model</td>
+			<td th:text="${book.author}">author</td>
+			<td th:text="${book.year}">year</td>
+			<td th:text="${book.isbn}">isbn</td>
+			<td th:text="${book.price}">price</td>
+			<td ><a class="btn btn-danger" th:href="@{/deletebook/{id}(id=${book.id})}">Delete</a></td>
+			<td ><a class="btn btn-warning" th:href="@{/editbook/{id}(id=${book.id})}">Edit</a></td>
+		</tr>
+		
+	</table>
+	<a href="/newbook"  class="btn btn-success">Add New Book</a>
+	
+<!--  	<h1>Add a new Book</h1>
+	<form action="#" th:action="@{/newbook}"  th:object= ${book} method="post">
+	<p>Title: <input type="text" th:field="${book.title}" /></p>
+	<p>Author: <input type="text" th:field="${book.author}" /></p>
+	<p>Year: <input type="text" th:field="${book.year}" /></p>
+	<p>ISBN: <input type="text" th:field="${book.isbn}" /></p>
+	<p>Price: <input type="text" th:field="${book.price}" /></p>
+	<input type="submit" value="Submit" /> <input type="reset" value="Reset" />
+	</form>
+-->
+</body>
+</html>
