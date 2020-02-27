@@ -31,6 +31,8 @@ public class BookstoreApplication {
 
 			log.info("save a couple of books");
 
+			//Two books
+			
 			bookRepository.save(
 					new Book("Äyskäri", "Äyskäriini", 1858, "0001", "30€", cRepository.findByName("Romaanit").get(0)));
 			bookRepository.save(new Book("21 Oppituntia maailman tilasta", "Yuval Noah Harrari", 2018,
@@ -45,7 +47,7 @@ public class BookstoreApplication {
 			for (Book book : bookRepository.findAll()) {
 				log.info(book.toString());
 			}
-
+			
 		};
 	}
 }
