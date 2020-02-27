@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import palvelinohjelmointi.Bookstore.domain.Book;
 import palvelinohjelmointi.Bookstore.domain.BookRepository;
+import palvelinohjelmointi.Bookstore.domain.CategoryRepository;
 
 @Controller
 public class BookController {
 
 	@Autowired
 	BookRepository repository;
+
+	@Autowired
+	CategoryRepository cRepository;
 
 	// Show booklist
 	@GetMapping("/booklist")
@@ -28,6 +32,7 @@ public class BookController {
 	@GetMapping(value = "/newbook")
 	public String newBookForm(Model model) {
 		model.addAttribute("book", new Book());
+		model.addAttribute("categories", cRepository.findAll());
 		return "addbook";
 	}
 
@@ -38,14 +43,13 @@ public class BookController {
 		return "redirect:/booklist";
 	}
 
-	// Book object for user (id)
+	// Book object for user edit (id)
 	@GetMapping(value = "/editbook/{id}")
 	public String editBook(@PathVariable("id") Long bookId, Model model) {
 		model.addAttribute("book", repository.findById(bookId));
+		model.addAttribute("categories", cRepository.findAll());
 		return "editbook";
 	}
-
-	
 
 	// Delete book (id)
 	@GetMapping(value = "/deletebook/{id}")
@@ -64,10 +68,8 @@ public class BookController {
 	 * repository.save(book); return "redirect:/booklist"; }
 	 * 
 	 * // Save user edit input & send to db
-	@PostMapping(value = "/editbook")
-	public String saveEditBook(@ModelAttribute Book book) {
-		repository.save(book);
-		return "redirect:/booklist";
-	}
+	 * 
+	 * @PostMapping(value = "/editbook") public String saveEditBook(@ModelAttribute
+	 * Book book) { repository.save(book); return "redirect:/booklist"; }
 	 */
 }
