@@ -37,6 +37,7 @@ public class BookController {
 	}
 
 	// Save user input & send to db
+	// Return user to listing view
 	@PostMapping(value = "/newbook")
 	public String saveNewBook(@ModelAttribute Book book) {
 		repository.save(book);
