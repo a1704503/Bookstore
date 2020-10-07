@@ -6,6 +6,8 @@
 <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
 </head>
 <body>
+
+	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
 	<h1>Books</h1>
 	
 	<table class="table table-striped">
@@ -32,6 +34,10 @@
 		
 	</table>
 	<a href="/newbook"  class="btn btn-success">Add New Book</a>
+	
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Sign Out"/>
+	</form>
 	
 <!--  	<h1>Add a new Book</h1>
 	<form action="#" th:action="@{/newbook}"  th:object= ${book} method="post">
