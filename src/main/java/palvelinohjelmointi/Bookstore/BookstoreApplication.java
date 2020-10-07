@@ -25,6 +25,7 @@ public class BookstoreApplication {
 	public CommandLineRunner bookDemo(BookRepository bookRepository, CategoryRepository cRepository) {
 		return (args) -> {
 
+			// Add test categories here
 			log.info("save few categories");
 			cRepository.save(new Category("Tietokirjallisuus"));
 			cRepository.save(new Category("Romaanit"));
