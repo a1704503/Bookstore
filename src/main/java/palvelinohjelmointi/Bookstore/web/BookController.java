@@ -1,6 +1,7 @@
 package palvelinohjelmointi.Bookstore.web;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,10 @@ public class BookController {
 		return "booklist";
 	}
 
+	// Show booklist JSON
 	@GetMapping("/books")
 	public @ResponseBody List<Book> bookListRest() {
+		// Showing a list instead just one object
 		return (List<Book>) repository.findAll();
 	}
 
@@ -58,6 +61,13 @@ public class BookController {
 		model.addAttribute("book", repository.findById(bookId));
 		model.addAttribute("categories", cRepository.findAll());
 		return "editbook";
+	}
+
+	// Find by ID Rest
+	@GetMapping(value = "/book/{id}")
+	public @ResponseBody Optional<Book> findByIdRest(@PathVariable("id") Long bookId) {
+		// return "optional" type booklist -object, requires this to handle exceptions
+		return (Optional<Book>) repository.findById(bookId);
 	}
 
 	// Delete book (id)
