@@ -73,7 +73,7 @@ public class BookController {
 
 	// Delete book (id)
 	// Authorised only for admin
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(value = "/deletebook/{id}")
 	public String deleteBook(@PathVariable("id") Long bookId, Model model) {
 		repository.deleteById(bookId);
