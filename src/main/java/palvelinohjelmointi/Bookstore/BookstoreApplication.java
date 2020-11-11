@@ -35,7 +35,6 @@ public class BookstoreApplication {
 			cRepository.save(new Category("Kauhu"));
 
 			log.info("save a couple of books");
-
 			// Tree books
 			bookRepository.save(
 					new Book("Panssari", "Perakainen", 1955, "08", "10€", cRepository.findByName("Romaanit").get(0)));
