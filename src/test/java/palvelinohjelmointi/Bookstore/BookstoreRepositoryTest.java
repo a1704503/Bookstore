@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,6 +23,8 @@ import palvelinohjelmointi.Bookstore.domain.UserRepository;
 @DataJpaTest
 public class BookstoreRepositoryTest {
 
+	private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.class);
+
 	@Autowired
 	private BookRepository brep;
 	@Autowired
@@ -29,7 +33,7 @@ public class BookstoreRepositoryTest {
 	private UserRepository urep;
 
 	@Test
-	public void findByTitleReturnBook() {
+	public void findByTitleShouldReturnBook() {
 		List<Book> books = brep.findByTitle("Panssari");
 		assertThat(books).hasSize(1);
 		boolean bContentEqls = books.get(0).getTitle().contentEquals("Panssari");
@@ -50,5 +54,60 @@ public class BookstoreRepositoryTest {
 		assertThat(user).isNotNull();
 		boolean uContentEqls = user.getUsername().contentEquals("user");
 		assertThat(uContentEqls);
+	}
+
+	@Test
+	public void createNewBook() {
+		Book book = new Book("Raineri", "Perakainen", 1945, "01", "12€", crep.findByName("Romaanit").get(0));
+		brep.save(book);
+		assertThat(book.getId()).isNotNull();
+	}
+
+	@Test
+	public void createNewCategory() {
+		Category category = new Category("Erotiikka");
+		crep.save(category);
+		assertThat(category.getCategoryid()).isNotNull();
+	}
+
+	@Test
+	public void createNewUser() {
+		User user = new User("test", "$2y$06$V5eG.lzxyMq60QbNgaBh5.KPA1mzpHGJhs8oQaFbaj9FqzHp5gprO", "test@gmail.com",
+				"USER");
+		urep.save(user);
+		assertThat(user.getId()).isNotNull();
+	}
+
+	@Test
+	public void deleteBook() {
+		List<Book> books = brep.findByTitle("Panssari");
+		Book book = books.get(0);
+		assertThat(books.size() == 1); // Before delete
+
+		brep.deleteById(book.getId());
+		books = brep.findByTitle(book.getTitle()); // book.getTittle() = "Panssari"
+		assertThat(books.size() == 0); // After delete
+	}
+
+	@Test
+	public void deleteCategory() {
+		List<Category> categories = crep.findByName("Tietokirjallisuus");
+		Category category = categories.get(0);
+		assertThat(categories.size() == 1);
+
+		crep.deleteById(category.getCategoryid());
+		categories = crep.findByName(category.getName());
+		assertThat(categories.size() == 0);
+	}
+
+	@Test
+	public void deleteUser() {
+		User user = urep.findByUsername("user");
+		assertThat(user.getUsername()).isNotNull();
+		assertThat(user.getUsername()).isEqualTo("user");
+
+		urep.delete(user);
+		user = urep.findByUsername("user");
+		assertThat(user).isNull();
 	}
 }
